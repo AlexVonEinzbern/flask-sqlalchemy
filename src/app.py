@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:4826494629@localhost:5432/NoteApp'
@@ -15,7 +15,7 @@ class Nota(db.Model):
     id_nota = db.Column(db.Integer, primary_key=True)
     titulo_nota = db.Column(db.String(50), unique=True, nullable=False)
     text_nota = db.Column(db.String(200), nullable=False)
-    fecha_nota = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    fecha_nota = db.Column(db.DateTime, nullable=False, default=datetime.utcnow()-timedelta(hours=5))
 
     def __repr__(self):
         return '<Nota %r>' % self.titulo_nota
