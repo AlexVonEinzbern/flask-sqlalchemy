@@ -15,8 +15,8 @@ export const CrearNota = () => (
             <textarea className="form-control" id="exampleFormControlTextarea1" rows={5} defaultValue={""} placeholder="Descripción" />
         </div>
         <div className="text-right">
-            <button type="button" class="btn btn-danger mx-2" data-toggle="modal">Cancelar</button>
-            <button type="button" class="btn btn-info" data-toggle="modal">Crear Nota</button>
+            <button type="button" class="btn btn-danger mx-2">Cancelar</button>
+            <button type="button" class="btn btn-info">Crear Nota</button>
         </div>
     </div>
 )
