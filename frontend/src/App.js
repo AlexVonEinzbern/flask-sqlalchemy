@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-import { CrearNota } from './components/CrearNota'
-import { EliminarNota } from './components/EliminarNota'
-import { EditarNota } from './components/EditarNota'
+import { CrearNota } from './components/CrearNota';
+import { EliminarNota } from './components/EliminarNota';
+import { EditarNota } from './components/EditarNota';
 import { Principal } from './components/Principal';
 
 function App() {
