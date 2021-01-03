@@ -19,7 +19,7 @@ class Nota(db.Model):
     fecha_nota = db.Column(db.DateTime, nullable=False, default=datetime.utcnow()-timedelta(hours=5))
 
     def __repr__(self):
-        return '<Nota %r>' % self.titulo_nota
+        return '<Nota %r>' % self.titulo
 
 db.create_all()
 
@@ -39,6 +39,11 @@ def create_nota():
     db.session.add(new_nota)
     db.session.commit()
     return nota_schema.jsonify(new_nota)
+
+@app.route('/getNotas', methods=['GET'])
+def getNotas():
+    notas= Nota.query.all()
+    return notas_schema.jsonify(notas)
 
 if __name__=="__main__":
     app.run(debug=True)
