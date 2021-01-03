@@ -1,5 +1,7 @@
-import Router from 'react'
+//import Router from 'react'
 
-export const EliminarNota = () => (
-    <h1>Eliminar nota!!</h1>
-)
+export const EliminarNota = () => {
+    return (
+        <h1>Eliminar nota!!</h1>
+    )
+}

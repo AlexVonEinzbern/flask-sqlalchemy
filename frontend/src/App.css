@@ -1,4 +1,4 @@
-.login-form {
+.crear-nota-form {
   width: 100%;
   max-width: 330px;
   padding: 15px;
@@ -10,3 +10,22 @@
 .bg-noteapp {
   background-color: #b8ffbb !important;
 }
+
+.alertSuccess {
+  background-color: #ffffff;
+  color: #33ff4b !important;
+  border-color: #33ff4b !important;
+  border-style: solid;
+  border-width:medium;
+  position: absolute;
+}
+
+.alertDanger {
+  background-color: #ffffff;
+  color: #ff2f2b !important;
+  border-color: #ff2f2b !important;
+  border-style: solid;
+  border-width:medium;
+  position: absolute;
+}
+

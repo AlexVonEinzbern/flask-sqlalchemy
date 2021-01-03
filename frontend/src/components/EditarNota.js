@@ -1,5 +1,7 @@
-import Router from 'react'
+//import Router from 'react'
 
-export const EditarNota = () => (
-    <h1>Editar Notas!!</h1>
-)
+export const EditarNota = () => {
+    return (
+        <h1>Editar Notas!!</h1>
+    )
+}
