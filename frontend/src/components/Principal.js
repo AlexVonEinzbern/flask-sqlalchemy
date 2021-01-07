@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
 
 const URI = process.env.REACT_APP_URI;
@@ -9,12 +9,14 @@ export const Principal = () => {
     const [descripcion, setDescripcion] = useState('')
     const [alertError, setAlertError] = useState('')
     const [state, setState] = useState('')
+    const [notas, setNotas] = useState([])
 
     const handleSutmit = async (e) => {
 
         try {
             e.preventDefault();
             const res = await fetch(`${URI}crearNotas`, {
+                credentials: "include",
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,6 +36,16 @@ export const Principal = () => {
         }
 
     }
+
+    const getNotas = async () => {
+        const res = await fetch(`${URI}getNotas`, {credentials: "include",})
+        const data = await res.json();
+        setNotas(data)
+    }
+
+    useEffect(() => {
+        getNotas();
+    }, [])
 
     return (
         <div>
@@ -99,21 +111,8 @@ export const Principal = () => {
                                         alertError ?
                                             (<div className="pt-4">
                                                 <div className="alert alertDanger">
-                                                Ha ocurrido un error
+                                                    Ha ocurrido un error
                                                 <button
-                                                    type="button"
-                                                    className="close"
-                                                    data-dismiss="alert"
-                                                    aria-label="Close"
-                                                    onClick={() => setState(false)}>
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            </div>) : (
-                                                <div className="pt-4">
-                                                <div className="alert alertSuccess">
-                                                    Nueva nota creada
-                                                    <button
                                                         type="button"
                                                         className="close"
                                                         data-dismiss="alert"
@@ -122,6 +121,19 @@ export const Principal = () => {
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
+                                            </div>) : (
+                                                <div className="pt-4">
+                                                    <div className="alert alertSuccess">
+                                                        Nueva nota creada
+                                                    <button
+                                                            type="button"
+                                                            className="close"
+                                                            data-dismiss="alert"
+                                                            aria-label="Close"
+                                                            onClick={() => setState(false)}>
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             )
                                     )}
@@ -129,7 +141,22 @@ export const Principal = () => {
                         </div>
                     </div>
                     <div className="col-8 pt-4">
-                        <h1>Contenido con las notas</h1>
+                        <table className="table table-striped">
+                            <thead>
+                                <th>Título</th>
+                                <th>Fecha</th>
+                                <th>Operaciones</th>
+                            </thead>
+                            <tbody>
+                                {notas.map(nota => (
+                                    <tr>
+                                        <td>{nota.titulo}</td>
+                                        <td>{nota.fecha_nota}</td>
+                                    </tr>
+
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
