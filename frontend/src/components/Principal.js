@@ -16,7 +16,7 @@ export const Principal = () => {
         try {
             e.preventDefault();
             const res = await fetch(`${URI}crearNotas`, {
-                credentials: "include",
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export const Principal = () => {
     }
 
     const getNotas = async () => {
-        const res = await fetch(`${URI}getNotas`, {credentials: "include",})
+        const res = await fetch(`${URI}getNotas`)
         const data = await res.json();
         setNotas(data)
     }
