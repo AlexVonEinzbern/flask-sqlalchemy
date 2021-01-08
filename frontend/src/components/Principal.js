@@ -16,7 +16,6 @@ export const Principal = () => {
         try {
             e.preventDefault();
             const res = await fetch(`${URI}crearNotas`, {
-                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -151,9 +150,17 @@ export const Principal = () => {
                             </thead>
                             <tbody>
                                 {notas.map(nota => (
-                                    <tr>
+                                    <tr key={nota.id_nota}>
                                         <td>{nota.titulo}</td>
                                         <td>{nota.fecha_nota}</td>
+                                        <td>
+                                            <button className="btn btn-info btn-sm btm-block">
+                                                Editar
+                                        </button>
+                                            <button className="btn btn-danger btn-sm btm-block">
+                                                Eliminar
+                                        </button>
+                                        </td>
                                     </tr>
 
                                 ))}
