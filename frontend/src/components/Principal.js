@@ -10,6 +10,7 @@ export const Principal = () => {
     const [alertError, setAlertError] = useState('')
     const [state, setState] = useState('')
     const [notas, setNotas] = useState([])
+    const [editando, setEditando] = useState(false)
 
     const handleSutmit = async (e) => {
 
@@ -29,6 +30,9 @@ export const Principal = () => {
             console.log(data);
             setState(true)
             setAlertError(false)
+            await getNotas();
+            setTitulo('');
+            setDescripcion('');
         } catch (error) {
             setState(true)
             setAlertError(true)
@@ -46,6 +50,15 @@ export const Principal = () => {
         getNotas();
     }, [])
 
+    const editarNota = (id) => {
+        setEditando(true)
+        console.log(id)
+    }
+
+    const eliminarNota = (id) => {
+        console.log(id)
+    }
+
     return (
         <div>
             <nav className="navbar navbar-light bg-noteapp">
@@ -62,7 +75,11 @@ export const Principal = () => {
                                 <form className="crear-nota-form">
                                     <nav className="navbar navbar-light bg-noteapp mb-3 ">
                                         <div className="container-fluid">
-                                            <span className="navbar-brand mb-0 h1"><strong>Crear Nota</strong></span>
+                                            {!editando ? (
+                                                <span className="navbar-brand mb-0 h1"><strong>Crear Nota</strong></span>
+                                            ):(
+                                                <span className="navbar-brand mb-0 h1"><strong>Editar Nota</strong></span>
+                                            )}
                                         </div>
                                     </nav>
                                     <div className="mb-3">
@@ -94,7 +111,8 @@ export const Principal = () => {
                                             /*onClick={}*/>
                                             Cancelar
                                         </button>
-                                        <button
+                                        {!editando ? (
+                                            <button
                                             className="btn btn-info"
                                             type="submit"
                                             name="crear"
@@ -102,6 +120,16 @@ export const Principal = () => {
                                             onClick={handleSutmit}>
                                             Crear Nota
                                         </button>
+                                        ):(
+                                            <button
+                                            className="btn btn-info"
+                                            type="submit"
+                                            name="editar"
+                                            value="editar"
+                                            onClick={handleSutmit}>
+                                            Editar Nota
+                                        </button>
+                                        )}
                                     </div>
                                 </form>
                                 {!state ? (
@@ -154,10 +182,14 @@ export const Principal = () => {
                                         <td>{nota.titulo}</td>
                                         <td>{nota.fecha_nota}</td>
                                         <td>
-                                            <button className="btn btn-info btn-sm btm-block">
+                                            <button
+                                                className="btn btn-success btn-sm btm-block mx-1"
+                                                onClick={(e) => editarNota(nota.id_nota)}>
                                                 Editar
                                         </button>
-                                            <button className="btn btn-danger btn-sm btm-block">
+                                            <button
+                                                className="btn btn-danger btn-sm btm-block"
+                                                onClick={(e) => eliminarNota(nota.id_nota)}>
                                                 Eliminar
                                         </button>
                                         </td>

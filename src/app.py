@@ -44,7 +44,6 @@ def create_nota():
 def getNotas():
     notas= Nota.query.all()
     return notas_schema.jsonify(notas)
-    #return nota_schema.jsonify(notas[0])
 
 if __name__=="__main__":
     app.run(debug=True)
