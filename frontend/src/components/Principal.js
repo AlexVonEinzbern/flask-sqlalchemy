@@ -143,9 +143,11 @@ export const Principal = () => {
                     <div className="col-8 pt-4">
                         <table className="table table-striped">
                             <thead>
-                                <th>Título</th>
-                                <th>Fecha</th>
-                                <th>Operaciones</th>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Operaciones</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 {notas.map(nota => (
