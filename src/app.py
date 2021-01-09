@@ -45,5 +45,26 @@ def getNotas():
     notas= Nota.query.all()
     return notas_schema.jsonify(notas)
 
+@app.route('/getNota/<id>', methods=['GET'])
+def getNota(id):
+    nota = Nota.query.filter_by(id_nota=id)
+    return notas_schema.jsonify(nota)
+
+@app.route('/eliminarNota/<id>', methods=['DELETE'])
+def eliminarNota(id):
+    Nota.query.filter_by(id_nota=id).delete()
+    db.session.commit()
+    return {'msg':'Nota eliminada'}
+
+@app.route('/editarNota/<id>', methods=['PUT'])
+def editarNota(id):
+    Nota.query.filter_by(id_nota=id).update({
+        'titulo': request.json['titulo'],
+        'descripcion': request.json['descripcion']
+    })
+    db.session.commit()
+    return {'msg':'Nota actualizada'}
+
+
 if __name__=="__main__":
     app.run(debug=True)

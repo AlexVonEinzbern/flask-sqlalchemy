@@ -11,6 +11,7 @@ export const Principal = () => {
     const [state, setState] = useState('')
     const [notas, setNotas] = useState([])
     const [editando, setEditando] = useState(false)
+    const [id, setId] = useState('')
 
     const handleSutmit = async (e) => {
 
@@ -33,11 +34,19 @@ export const Principal = () => {
             await getNotas();
             setTitulo('');
             setDescripcion('');
+
         } catch (error) {
             setState(true)
             setAlertError(true)
         }
 
+    }
+
+    const cancelar = (e) => {
+        e.preventDefault();
+        setTitulo('');
+        setDescripcion('');
+        setEditando(false)
     }
 
     const getNotas = async () => {
@@ -50,13 +59,52 @@ export const Principal = () => {
         getNotas();
     }, [])
 
-    const editarNota = (id) => {
+    const editarNota = async (id) => {
         setEditando(true)
-        console.log(id)
+        const res = await fetch(`${URI}getNota/${id}`)
+        const data = await res.json();
+        setId(id)
+        setTitulo(data[0]['titulo'])
+        setDescripcion(data[0]['descripcion'])
     }
 
-    const eliminarNota = (id) => {
-        console.log(id)
+    const editar = async (e) => {
+        try {
+            e.preventDefault();
+            const res = await fetch(`${URI}editarNota/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    titulo,
+                    descripcion
+                })
+            })
+            const data = await res.json();
+            console.log(data);
+            setState(true)
+            setAlertError(false)
+            await getNotas();
+            setTitulo('');
+            setDescripcion('');
+        } catch (error) {
+            setState(true)
+            setAlertError(true)
+        }
+
+    }
+
+    const eliminarNota = async (id) => {
+        const userRes = window.confirm('¿Eliminar nota?')
+        if (userRes) {
+            const res = await fetch(`${URI}eliminarNota/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            console.log(data)
+            await getNotas();
+        }
     }
 
     return (
@@ -77,9 +125,9 @@ export const Principal = () => {
                                         <div className="container-fluid">
                                             {!editando ? (
                                                 <span className="navbar-brand mb-0 h1"><strong>Crear Nota</strong></span>
-                                            ):(
-                                                <span className="navbar-brand mb-0 h1"><strong>Editar Nota</strong></span>
-                                            )}
+                                            ) : (
+                                                    <span className="navbar-brand mb-0 h1"><strong>Editar Nota</strong></span>
+                                                )}
                                         </div>
                                     </nav>
                                     <div className="mb-3">
@@ -108,28 +156,28 @@ export const Principal = () => {
                                             type="submit"
                                             name="cancelar"
                                             value="cancelar"
-                                            /*onClick={}*/>
+                                            onClick={cancelar}>
                                             Cancelar
                                         </button>
                                         {!editando ? (
                                             <button
-                                            className="btn btn-info"
-                                            type="submit"
-                                            name="crear"
-                                            value="crear"
-                                            onClick={handleSutmit}>
-                                            Crear Nota
-                                        </button>
-                                        ):(
-                                            <button
-                                            className="btn btn-info"
-                                            type="submit"
-                                            name="editar"
-                                            value="editar"
-                                            onClick={handleSutmit}>
-                                            Editar Nota
-                                        </button>
-                                        )}
+                                                className="btn btn-info"
+                                                type="submit"
+                                                name="crear"
+                                                value="crear"
+                                                onClick={handleSutmit}>
+                                                Crear Nota
+                                            </button>
+                                        ) : (
+                                                <button
+                                                    className="btn btn-info"
+                                                    type="submit"
+                                                    name="editar"
+                                                    value="editar"
+                                                    onClick={editar}>
+                                                    Editar Nota
+                                                </button>
+                                            )}
                                     </div>
                                 </form>
                                 {!state ? (
@@ -151,7 +199,7 @@ export const Principal = () => {
                                             </div>) : (
                                                 <div className="pt-4">
                                                     <div className="alert alertSuccess">
-                                                        Nueva nota creada
+                                                        Nota guardada
                                                     <button
                                                             type="button"
                                                             className="close"
