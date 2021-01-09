@@ -88,6 +88,7 @@ export const Principal = () => {
             await getNotas();
             setTitulo('');
             setDescripcion('');
+            setEditando(false);
         } catch (error) {
             setState(true)
             setAlertError(true)
